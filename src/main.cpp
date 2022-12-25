@@ -1,14 +1,10 @@
 #include <iostream>
-#include "RenderWindow.h"
+#include "../include/RenderWindow.h"
 
 int main(int argc, char* args[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) //returns 0 if initialised properly
     {
         std::cout << "SDL INIT HAS FAILED" << SDL_GetError() << std::endl;
-    }
-    if(!IMG_Init(IMG_INIT_PNG))
-    {
-        std::cout << "IMG INIT HAS FAILED" << SDL_GetError() << std::endl;
     }
     RenderWindow window("Hydromotion", 1280, 720);
 
@@ -28,7 +24,7 @@ int main(int argc, char* args[]) {
     }
 
 
-    window.cleanUp();
+    window.CleanUp();
     SDL_Quit();
 
     return 0;

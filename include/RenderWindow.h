@@ -14,7 +14,8 @@ private:
     SDL_Renderer* renderer;
 public:
     RenderWindow(const char* title, int w, int h);
-    void cleanUp();
+    SDL_Texture* loadTexture(const char* file_path);
+    void CleanUp();
 
 };
 
