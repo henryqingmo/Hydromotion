@@ -2,10 +2,11 @@
  * It allows other cpp files to create objects by including this header file.
  * */
 
-#ifndef HYDROMOTION_RENDERWINDOW_H
+#ifndef HYDROMOTION_RENDERWINDOW_H // The include guard ensures the file is processed once.
 #define HYDROMOTION_RENDERWINDOW_H
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL2_image/SDL_image.h>
+
 
 class RenderWindow
 {
@@ -15,7 +16,11 @@ private:
 public:
     RenderWindow(const char* title, int w, int h);
     SDL_Texture* loadTexture(const char* file_path);
-    void CleanUp();
+    void cleanUp();
+    void clear();
+    void render(SDL_Texture* texture);
+    void display();
+    
 
 };
 

@@ -6,7 +6,12 @@ int main(int argc, char* args[]) {
     {
         std::cout << "SDL INIT HAS FAILED" << SDL_GetError() << std::endl;
     }
+    IMG_Init(IMG_INIT_PNG);
     RenderWindow window("Hydromotion", 1280, 720);
+    
+    SDL_Texture* background = window.loadTexture("res/background.png");
+   
+
 
    bool QuitGame = false;
 
@@ -21,11 +26,15 @@ int main(int argc, char* args[]) {
                 QuitGame = true;
             }
         }
+        window.clear();
+        window.render(background);
+        window.display();
     }
 
 
-    window.CleanUp();
+    window.cleanUp();
     SDL_Quit();
+    
 
     return 0;
 }
