@@ -1,15 +1,29 @@
-#include <iostream>
+#include <QApplication>
+#include "../include/MenuScreen.h"
 #include "../include/RenderWindow.h"
+#include "../include/Log.h"
 
-int main(int argc, char* args[]) {
+
+int main(int argc, char* argv[]) {
+
+    QApplication a(argc, argv);
+    MenuScreen w;
+    w.show();
+    return a.exec();
+    LOG Log;
+    Log.setLevel(LOG::LevelInfo);
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0) //returns 0 if initialised properly
     {
-        std::cout << "SDL INIT HAS FAILED" << SDL_GetError() << std::endl;
+        Log.getLog(LOG::LevelError, "SDL Init Failed", SDL_GetError());
     }
-    IMG_Init(IMG_INIT_PNG);
+   if  (IMG_Init(IMG_INIT_PNG) < 0)
+   {
+       Log.getLog(LOG::LevelError, "SDL_IMG Init Failed", SDL_GetError());
+   }
     RenderWindow window("Hydromotion", 1280, 720);
     
-    SDL_Texture* background = window.loadTexture("res/background.png");
+    SDL_Texture* background = window.loadTexture("/home/henry/Documents/Programming/Project/Hydromotion/res/background.jpeg");
    
 
 

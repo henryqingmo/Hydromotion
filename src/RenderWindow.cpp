@@ -18,7 +18,7 @@ void RenderWindow::clear()
 
 void RenderWindow::render(SDL_Texture* texture)
 {
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderCopy(renderer, texture, nullptr, nullptr);
 }
 
 void RenderWindow::display()
