@@ -15,3 +15,4 @@ void LOG::getLog(Level level, const char *Message, const char *ErrorCode)
         std::cout << Message << ErrorCode << std::endl;
     }
 }
+

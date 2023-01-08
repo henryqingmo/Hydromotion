@@ -5,13 +5,13 @@
 
 
 int main(int argc, char* argv[]) {
+    LOG Log;
+    Log.setLevel(LOG::LevelInfo);
 
     QApplication a(argc, argv);
     MenuScreen w;
     w.show();
     return a.exec();
-    LOG Log;
-    Log.setLevel(LOG::LevelInfo);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) //returns 0 if initialised properly
     {

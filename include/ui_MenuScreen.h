@@ -60,6 +60,8 @@ public:
         label->setFont(font);
 
         retranslateUi(MenuScreen);
+
+        QMetaObject::connectSlotsByName(MenuScreen);
     } // setupUi
 
     void retranslateUi(QWidget *MenuScreen)

@@ -26,7 +26,6 @@ void RenderWindow::display()
     SDL_RenderPresent(renderer);
 }
 
-    
 
 void RenderWindow::cleanUp() {
     SDL_DestroyWindow(window);

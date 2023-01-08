@@ -7,6 +7,7 @@ MenuScreen::MenuScreen(QWidget *parent)
         , ui(new Ui::MenuScreen)
 {
     ui->setupUi(this);
+    connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(on_quitButton_click()));
 }
 
 MenuScreen::~MenuScreen()
@@ -21,6 +22,7 @@ void MenuScreen::on_selectButton_click()
 
 void MenuScreen::on_quitButton_click()
 {
-
+    this->~MenuScreen();
 };
+
 
