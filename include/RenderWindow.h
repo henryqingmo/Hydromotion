@@ -6,15 +6,16 @@
 #define HYDROMOTION_RENDERWINDOW_H
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
+#include <QWidget>
 
 class RenderWindow
 {
 private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+    SDL_Window* m_sdlWindow;
+    QWidget m_qtWindow;
+    SDL_Renderer* m_renderer;
 public:
-    RenderWindow(const char* title, int w, int h);
+    RenderWindow(const QString title, int w, int h);
     SDL_Texture* loadTexture(const char* file_path);
     void cleanUp();
     void clear();

@@ -1,5 +1,5 @@
-#ifndef HYDROMOTION_UI_MENUSCREEN_H
-#define HYDROMOTION_UI_MENUSCREEN_H
+#ifndef HYDROMOTION_UI_MAINMENU_H
+#define HYDROMOTION_UI_MAINMENU_H
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
@@ -10,7 +10,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_MenuScreen
+class Ui_MainMenu
 {
 public:
     QWidget *verticalLayoutWidget;
@@ -21,12 +21,12 @@ public:
     QPushButton *quitButton;
     QLabel *label;
 
-    void setupUi(QWidget *MenuScreen)
+    void setupUi(QWidget *MainMenu)
     {
-        if (MenuScreen->objectName().isEmpty())
-            MenuScreen->setObjectName(QString::fromUtf8("MenuScreen"));
-        MenuScreen->resize(800, 600);
-        verticalLayoutWidget = new QWidget(MenuScreen);
+        if (MainMenu->objectName().isEmpty())
+            MainMenu->setObjectName(QString::fromUtf8("MainMenu"));
+        MainMenu->resize(800, 600);
+        verticalLayoutWidget = new QWidget(MainMenu);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(110, 360, 160, 151));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
@@ -52,34 +52,34 @@ public:
 
         verticalLayout->addWidget(quitButton);
 
-        label = new QLabel(MenuScreen);
+        label = new QLabel(MainMenu);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(110, 210, 342, 78));
         QFont font;
         font.setPointSize(36);
         label->setFont(font);
 
-        retranslateUi(MenuScreen);
+        retranslateUi(MainMenu);
 
-        QMetaObject::connectSlotsByName(MenuScreen);
+        QMetaObject::connectSlotsByName(MainMenu);
     } // setupUi
 
-    void retranslateUi(QWidget *MenuScreen)
+    void retranslateUi(QWidget *MainMenu)
     {
-        MenuScreen->setWindowTitle(QCoreApplication::translate("MenuScreen", "MenuScreen", nullptr));
-        selectButton->setText(QCoreApplication::translate("MenuScreen", "SELECT MODULE", nullptr));
-        loadButton->setText(QCoreApplication::translate("MenuScreen", "LOAD SAVE", nullptr));
-        optionButton->setText(QCoreApplication::translate("MenuScreen", "OPTIONS", nullptr));
-        quitButton->setText(QCoreApplication::translate("MenuScreen", "QUIT", nullptr));
-        label->setText(QCoreApplication::translate("MenuScreen", "HYDROMOTION", nullptr));
+        MainMenu->setWindowTitle(QCoreApplication::translate("MainMenu", "MainMenu", nullptr));
+        selectButton->setText(QCoreApplication::translate("MainMenu", "SELECT MODULE", nullptr));
+        loadButton->setText(QCoreApplication::translate("MainMenu", "LOAD SAVE", nullptr));
+        optionButton->setText(QCoreApplication::translate("MainMenu", "OPTIONS", nullptr));
+        quitButton->setText(QCoreApplication::translate("MainMenu", "QUIT", nullptr));
+        label->setText(QCoreApplication::translate("MainMenu", "HYDROMOTION", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class MenuScreen: public Ui_MenuScreen {};
+    class MainMenu: public Ui_MainMenu {};
 } // namespace Ui
 
 QT_END_NAMESPACE
 
-#endif //HYDROMOTION_UI_MENUSCREEN_H
+#endif //HYDROMOTION_UI_MAINMENU_H

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MenuScreen</class>
- <widget class="QWidget" name="MenuScreen">
+ <class>MainMenu</class>
+ <widget class="QWidget" name="MainMenu">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MenuScreen</string>
+   <string>MainMenu</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -77,7 +77,7 @@
   <connection>
    <sender>quitButton</sender>
    <signal>clicked()</signal>
-   <receiver>MenuScreen</receiver>
+   <receiver>MainMenu</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
