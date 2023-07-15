@@ -20,9 +20,7 @@
 ///#include "glm/gtc/type_ptr.hpp"
 //#include "glm/gtc/matrix_transform.hpp"
 
-MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_mass(0.0f), m_speed(0.0f), m_angle(0.0f), m_height(0.0f),
-    m_ball(0,{0,0,0})
-
+MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_mass(0.0f), m_speed(0.0f), m_angle(0.0f), m_height(0.0f)
 {
 }
 
@@ -30,10 +28,9 @@ MyOpenGLWidget::~MyOpenGLWidget()
 {
     delete shader_ball;
     delete shader_rectangle;
-    delete vbo_ball;
-    delete vbo_rectangle;
     delete ibo_ball;
     delete ibo_rectangle;
+
 }
 
 void MyOpenGLWidget::initializeGL()
@@ -46,7 +43,21 @@ void MyOpenGLWidget::initializeGL()
     context->makeCurrent(this->context()->surface());
 
     glClearColor(0, 0.5, 0.7, 1);
-   /* Opengl can only draw basic shapes like triangles, a circle can be approximated
+
+
+}
+
+
+void MyOpenGLWidget::resizeGL(int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
+
+
+void MyOpenGLWidget::paintGL()
+{
+
+    /* Opengl can only draw basic shapes like triangles, a circle can be approximated
      * through drawing various triangles that forms a n-sided polygon.
      * The angle between two adjacent vertices can be caculated by 2π / n
      * The polar coordinate of each vertex is (r, θ), which can be converted to contersian form (rcosθ, rsinθ)
@@ -78,109 +89,47 @@ void MyOpenGLWidget::initializeGL()
         indices.push_back(i+2);
     }
 
+//    std::vector<glm::vec2> ball_texCoords;
+//    for (int i = 0; i < vertexCount; i++)
+//    {
+//        float u = static_cast<float>(i) / (vertexCount - 1);
+//        float v = 0.0f; // Assuming the texture is vertically flipped
+//        ball_texCoords.push_back(glm::vec2(u, v));
+//    }
 
     shader_ball = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
     shader_ball->bind();
-
-    //vao_ball.bind();
-
-    vbo_ball = new VertexBuffer(ball_position.data(), ball_position.size() * sizeof(glm::vec3));
-    ibo_ball = new IndexBuffer(indices.data(), indices.size());
-
-    vbo_ball->bind();
-    ibo_ball->bind();
-
-
     QVector4D color_ball(1.0f, 0.0f, 0.0f, 1.0f);
     shader_ball->SetUniformValue("u_Color", color_ball);
 
-
+    VertexBuffer vbo_ball(ball_position.data(), ball_position.size() * sizeof(glm::vec3));
+    VertexArray vao_ball;
     VertexBufferLayout ball_layout;
     ball_layout.Push(GL_FLOAT, 3, GL_FALSE);
-    shader_ball->AddBuffer(ball_layout);
-
-
-    vao_ball.unbind();
-    ibo_ball->unbind();
-    shader_ball->unbind();
-
-
-    std::vector<glm::vec3> rectangleVertices = {
-        glm::vec3(-1.9f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.0f, 0.0f),
-        glm::vec3(-1.9f, -1.0f, 0.0f)
-    };
-
-
-    std::vector<unsigned int> rectangleIndices = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    shader_rectangle = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
-    shader_rectangle->bind();
-
-    vao_rectangle.bind();
-
-    vbo_rectangle = new VertexBuffer(rectangleVertices.data(), rectangleVertices.size() * sizeof(glm::vec3));
-    ibo_rectangle = new IndexBuffer(rectangleIndices.data(), rectangleIndices.size());
-
-    vbo_rectangle->bind();
-    ibo_rectangle->bind();
-
-    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.003f);
-    shader_rectangle->SetUniformValue("u_Color", color_rectangle);
-
-    VertexBufferLayout rectangle_Layout;
-    rectangle_Layout.Push(GL_FLOAT, 3, GL_FALSE);
-    shader_rectangle->AddBuffer(rectangle_Layout);
-
-
-    vao_rectangle.unbind();
-    ibo_rectangle->unbind();
-    shader_rectangle->unbind();
-
-
-}
-
-
-void MyOpenGLWidget::resizeGL(int w, int h)
-{
-    glViewport(0, 0, w, h);
-}
-
-
-void MyOpenGLWidget::paintGL()
-{
-
+    vao_ball.AddBuffer(vbo_ball, ball_layout);
+    ibo_ball = new IndexBuffer(indices.data(), indices.size());
 
     float mass = 50.0f;
     float dt = 0.01f;
     float duration = 2.0f;
+//    QVector3D init_velocity{2.0f, 5.0f, 0.0f};
+
+    //m_velocity -= 1;
 
     QVector3D init_velocity{2.0f, m_speed, 0.0f};
 
-    m_ball = SystemState(mass, init_velocity);
+    SystemState ball(mass, init_velocity);
 
     QMatrix4x4 proj, view;
 
     proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
-    view.setToIdentity();
-
-    transformation(proj, view);
-
-    fire(dt, duration, proj, view);
 
 
-}
-
-void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view)
-{
     for(float i = 0.0f; i < duration; i+=dt)
     {
+        //view.translate(1.0f, 1.0f, 0.0f);
         view.setToIdentity();
-        view.translate(m_ball.GetTranslation(dt * i));
+        view.translate(ball.GetTranslation(dt * i));
 
         QMatrix4x4 mvp = proj * view;
         shader_ball->SetUniformValue("u_MVP", mvp);
@@ -188,21 +137,71 @@ void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 
 
     }
 
-    vao_ball.unbind();
-    ibo_ball->unbind();
-    shader_ball->unbind();
-}
 
-void MyOpenGLWidget::transformation(QMatrix4x4 proj, QMatrix4x4 view)
-{
-    QMatrix4x4 mvp = proj * view;
-    shader_rectangle->SetUniformValue("u_MVP", mvp);
+//    QString filePath = "/home/henry/Documents/Programming/Project/QT_Hydromotion/res/golf_ball.jpg";
+//    Texture texture(filePath);
+//    shader.SetUniformValue("u_Texture", 0);
+
+
+
+
+//    VertexBuffer vbo_ball_texCoords(ball_texCoords.data(), ball_texCoords.size() * sizeof(glm::vec2));
+//    VertexBufferLayout ball_texCoords_layout;
+//    ball_texCoords_layout.Push(GL_FLOAT, 2, GL_FALSE);
+//    vao_ball.AddBuffer(vbo_ball_texCoords, ball_texCoords_layout);
+
+
+
+    std::vector<glm::vec3> squareVertices = {
+        glm::vec3(-1.9f, -1.5f, 0.0f),
+        glm::vec3(-1.8f, -1.5f, 0.0f),
+        glm::vec3(-1.8f, -1.0f, 0.0f),
+        glm::vec3(-1.9f, -1.0f, 0.0f)
+    };
+
+
+    std::vector<unsigned int> squareIndices = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    shader_ball->unbind();
+
+    shader_rectangle = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
+    shader_rectangle->bind();
+    shader_rectangle->SetUniformValue("u_MVP", proj);
+
+
+//   // QMatrix4x4 modelMatrix;
+// //   modelMatrix.rotate(45.0f, 1.0f, 0.0f, 0.0f);
+
+//    //QMatrix4x4 mvpMatrix = proj * modelMatrix;
+//    //shader.SetUniformValue("u_MVP", mvpMatrix);
+
+//    glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+
+    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.003f);
+
+    VertexBuffer vbo_rectangle(squareVertices.data(), squareVertices.size() * sizeof(glm::vec3));
+
+    // Create a new IndexBuffer for the square
+    ibo_rectangle = new IndexBuffer(squareIndices.data(), squareIndices.size());
+
+    // Create a new VertexArray for the square
+    VertexArray vao_rectangle;
+    VertexBufferLayout squareLayout;
+    squareLayout.Push(GL_FLOAT, 3, GL_FALSE);
+    vao_rectangle.AddBuffer(vbo_rectangle, squareLayout);
+    shader_rectangle->SetUniformValue("u_Color", color_rectangle);
+
     renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
 
-    vao_rectangle.unbind();
-    ibo_rectangle->unbind();
-    shader_rectangle->unbind();
 }
+
+//void MyOpenGLWidget::fire()
+//{
+
+//}
 
 void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
 {
@@ -225,15 +224,6 @@ void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
     }
 
 }
-
-
-//    std::vector<glm::vec2> ball_texCoords;
-//    for (int i = 0; i < vertexCount; i++)
-//    {
-//        float u = static_cast<float>(i) / (vertexCount - 1);
-//        float v = 0.0f; // Assuming the texture is vertically flipped
-//        ball_texCoords.push_back(glm::vec2(u, v));
-//    }
 
 
 
