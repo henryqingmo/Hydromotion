@@ -42,7 +42,6 @@ void Shader::AddBuffer(const VertexBufferLayout &layout)
     {
         const auto& element = elements[i];
 
-      //  m_Program.setAttributeArray(i, element.type, reinterpret_cast<const void*>(offset), element.count, layout.GetStride());
         m_Program.setAttributeBuffer(i, element.type, offset, element.count, layout.GetStride());
         m_Program.enableAttributeArray(i);
         offset += element.count * VertexBufferElement::GetSizeOfType(element.type);

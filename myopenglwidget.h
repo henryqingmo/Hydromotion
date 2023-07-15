@@ -37,6 +37,7 @@ public:
     MyOpenGLWidget(QWidget *parent = nullptr);
     ~MyOpenGLWidget();
     void fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view);
+    void transformation(QMatrix4x4 proj, QMatrix4x4 view);
 
 public slots:
     void on_sliderValueChanged(int value, const SliderType sliderName);

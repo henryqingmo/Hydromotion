@@ -82,13 +82,13 @@ void MyOpenGLWidget::initializeGL()
     shader_ball = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
     shader_ball->bind();
 
-    vao_ball.bind();
+    //vao_ball.bind();
 
     vbo_ball = new VertexBuffer(ball_position.data(), ball_position.size() * sizeof(glm::vec3));
     ibo_ball = new IndexBuffer(indices.data(), indices.size());
 
-    //vbo_ball->bind();
-    //ibo_ball->bind();
+    vbo_ball->bind();
+    ibo_ball->bind();
 
 
     QVector4D color_ball(1.0f, 0.0f, 0.0f, 1.0f);
@@ -104,6 +104,42 @@ void MyOpenGLWidget::initializeGL()
     ibo_ball->unbind();
     shader_ball->unbind();
 
+
+    std::vector<glm::vec3> rectangleVertices = {
+        glm::vec3(-1.9f, -1.5f, 0.0f),
+        glm::vec3(-1.8f, -1.5f, 0.0f),
+        glm::vec3(-1.8f, -1.0f, 0.0f),
+        glm::vec3(-1.9f, -1.0f, 0.0f)
+    };
+
+
+    std::vector<unsigned int> rectangleIndices = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    shader_rectangle = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
+    shader_rectangle->bind();
+
+    vao_rectangle.bind();
+
+    vbo_rectangle = new VertexBuffer(rectangleVertices.data(), rectangleVertices.size() * sizeof(glm::vec3));
+    ibo_rectangle = new IndexBuffer(rectangleIndices.data(), rectangleIndices.size());
+
+    vbo_rectangle->bind();
+    ibo_rectangle->bind();
+
+    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.003f);
+    shader_rectangle->SetUniformValue("u_Color", color_rectangle);
+
+    VertexBufferLayout rectangle_Layout;
+    rectangle_Layout.Push(GL_FLOAT, 3, GL_FALSE);
+    shader_rectangle->AddBuffer(rectangle_Layout);
+
+
+    vao_rectangle.unbind();
+    ibo_rectangle->unbind();
+    shader_rectangle->unbind();
 
 
 }
@@ -130,59 +166,11 @@ void MyOpenGLWidget::paintGL()
     QMatrix4x4 proj, view;
 
     proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    view.setToIdentity();
 
+    transformation(proj, view);
 
     fire(dt, duration, proj, view);
-
-    vao_ball.unbind();
-    ibo_ball->unbind();
-    shader_ball->unbind();
-
-    std::vector<glm::vec3> rectangleVertices = {
-        glm::vec3(-1.9f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.0f, 0.0f),
-        glm::vec3(-1.9f, -1.0f, 0.0f)
-    };
-
-
-    std::vector<unsigned int> rectangleIndices = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    shader_rectangle = new Shader(m_vertexShaderPath, m_fragmentShaderPath);
-    shader_rectangle->bind();
-
-    vao_rectangle.bind();
-
-    vbo_rectangle = new VertexBuffer(rectangleVertices.data(), rectangleVertices.size() * sizeof(glm::vec3));
-    ibo_rectangle = new IndexBuffer(rectangleIndices.data(), rectangleIndices.size());
-
- //   vbo_rectangle->bind();
-    //ibo_rectangle->bind();
-
-    VertexBufferLayout rectangle_Layout;
-    rectangle_Layout.Push(GL_FLOAT, 3, GL_FALSE);
-    shader_rectangle->AddBuffer(rectangle_Layout);
-
-
-    vao_rectangle.unbind();
-    ibo_rectangle->unbind();
-    shader_rectangle->unbind();
-
-
-    vao_rectangle.bind();
-    ibo_rectangle->bind();
-    shader_rectangle->bind();
-
-    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.003f);
-
-
-    shader_rectangle->SetUniformValue("u_MVP", proj);
-
-
-    renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
 
 
 }
@@ -199,6 +187,17 @@ void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 
         renderer.draw(vao_ball, ibo_ball, shader_ball);
 
     }
+
+    vao_ball.unbind();
+    ibo_ball->unbind();
+    shader_ball->unbind();
+}
+
+void MyOpenGLWidget::transformation(QMatrix4x4 proj, QMatrix4x4 view)
+{
+    QMatrix4x4 mvp = proj * view;
+    shader_rectangle->SetUniformValue("u_MVP", mvp);
+    renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
 
     vao_rectangle.unbind();
     ibo_rectangle->unbind();
