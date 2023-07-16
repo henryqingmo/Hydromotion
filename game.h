@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "myopenglwidget.h"
+#include "MyOpenGLWidget.h"
 
 
 namespace Ui {

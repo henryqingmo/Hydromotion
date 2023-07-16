@@ -1,5 +1,5 @@
 QT       += core gui \
-            opengl
+            openglwidgets
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -15,6 +15,8 @@ CONFIG += c++17 \
 SOURCES += \
     IndexBuffer.cpp \
     MainMenu.cpp \
+    MyOpenGLWidget.cpp \
+    MyThread.cpp \
     OptionMenu.cpp \
     Renderer.cpp \
     Shader.cpp \
@@ -24,13 +26,14 @@ SOURCES += \
     VertexArray.cpp \
     VertexBufferLayout.cpp \
     game.cpp \
-    main.cpp \
-    myopenglwidget.cpp
+    main.cpp
 
 HEADERS += \
     Debug.h \
     IndexBuffer.h \
     MainMenu.h \
+    MyOpenGLWidget.h \
+    MyThread.h \
     OptionMenu.h \
     Renderer.h \
     Shader.h \
@@ -39,8 +42,7 @@ HEADERS += \
     VertexArray.h \
     VertexBuffer.h \
     VertexBufferLayout.h \
-    game.h \
-    myopenglwidget.h
+    game.h
 
 FORMS += \
     MainMenu.ui \
