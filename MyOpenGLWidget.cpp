@@ -14,8 +14,6 @@
 #include "Debug.h"
 #include "SystemState.h"
 #include "Texture.h"
-//#include "BallRenderer.h"
-#include "RectangleRenderer.h"
 #include "game.h"
 
 // QT FRAMEWORK
@@ -28,9 +26,9 @@
 ///#include "glm/gtc/type_ptr.hpp"
 //#include "glm/gtc/matrix_transform.hpp"
 
-MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_mass(0.0f), m_speed(0.0f), m_angle(0.0f), m_height(0.0f)
-    ,m_ball(0, {0,0,0})
+MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_speed(0.0f), m_angle(0.0f), m_height(0.0f)
 {
+
 }
 
 MyOpenGLWidget::~MyOpenGLWidget()
@@ -126,31 +124,41 @@ void MyOpenGLWidget::initializeBall()
 
 }
 
-void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view)
+void MyOpenGLWidget::updateBallPosition(QMatrix4x4 mvp)
 {
-    shader_ball->AddBuffer(vbo_ball, layout_ball);
 
-      for(float i = 0.0f; i < duration; i+=dt)
-    {
-        view.setToIdentity();
-        view.translate(m_ball.GetTranslation(dt * i));
+ //   shader_ball->SetUniformValue("u_MVP", mvp);
+    //QMatrix4x4 proj, view;
+    // proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    m_ballMVP = mvp;
+    update();
 
-        QMatrix4x4 mvp = proj * view;
-        shader_ball->SetUniformValue("u_MVP", mvp);
-        renderer.draw(vao_ball, ibo_ball, shader_ball);
-
-    }
 }
 
-void MyOpenGLWidget::transformation(QMatrix4x4 proj, QMatrix4x4 view)
-{
-    shader_rectangle->AddBuffer(vbo_rectangle, layout_rectangle);
+//void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view)
+//{
+//    shader_ball->AddBuffer(vbo_ball, layout_ball);
+//    SystemState m_ball({2,5,0});
 
-    shader_rectangle->SetUniformValue("u_MVP", proj);
-    renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
+//      for(float i = 0.0f; i < duration; i+=dt)
+//    {
+//        view.setToIdentity();
+//        view.translate(m_ball.GetTranslation(dt * i));
 
+//        QMatrix4x4 mvp = proj * view;
+//        shader_ball->SetUniformValue("u_MVP", mvp);
+//        renderer.draw(vao_ball, ibo_ball, shader_ball);
 
-}
+//    }
+//}
+
+//void MyOpenGLWidget::transformation(QMatrix4x4 proj, QMatrix4x4 view)
+//{
+//    shader_rectangle->AddBuffer(vbo_rectangle, layout_rectangle);
+
+//    shader_rectangle->SetUniformValue("u_MVP", proj);
+//    renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
+//}
 
 void MyOpenGLWidget::initializeGL()
 {
@@ -165,8 +173,7 @@ void MyOpenGLWidget::initializeGL()
 
     initializeBall();
 
-
-    initializeRectangle();
+   // initializeRectangle();
 
  }
 
@@ -179,30 +186,88 @@ void MyOpenGLWidget::resizeGL(int w, int h)
 
 void MyOpenGLWidget::paintGL()
 {
+    shader_ball->AddBuffer(vbo_ball, layout_ball);
+    shader_ball->SetUniformValue("u_MVP", m_ballMVP);
+    glDrawElements(GL_TRIANGLES, ibo_ball->getCount(), GL_UNSIGNED_INT, 0);
 
-    float mass = 50.0f;
+
+//    float dt = 0.01f;
+//    float duration = 2.0f;
+
+
+//    QMatrix4x4 proj, view;
+
+//    proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+
+
+//    view.setToIdentity();
+
+
+//    GetError();
+
+
+//   transformation(proj, view);
+
+   //fire(dt, duration, proj, view);
+
+
+}
+
+
+
+void MyOpenGLWidget::on_pushButton_fire_clicked()
+{
     float dt = 0.01f;
+
     float duration = 2.0f;
-//    QVector3D init_velocity{2.0f, 5.0f, 0.0f};
-
-    //m_velocity -= 1;
-
-    QVector3D init_velocity{2.0f, m_speed, 0.0f};
 
     QMatrix4x4 proj, view;
 
     proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
+    QVector3D velocity(2.0f, 5.0f, 0.0f);
 
-    view.setToIdentity();
+    animationThread = new AnimationThread(velocity);
+
+    connect(animationThread, &AnimationThread::updateBallPosition, this, &MyOpenGLWidget::updateBallPosition);
+
+    animationThread->setParameters(dt, duration, proj, view);
+
+    animationThread->start();
 
 
-    GetError();
+}
 
 
-   transformation(proj, view);
 
-   //fire(dt, duration, proj, view);
+void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
+{
+
+    switch (sliderName) {
+    case Speed:
+        m_speed = static_cast<float>(value) / 1.0f;
+        break;
+    case Angle:
+        m_angle = static_cast<float>(value) / 1.0f;
+        break;
+    case Height:
+        m_height = static_cast<float>(value) / 1.0f;
+        break;
+    default:
+        break;
+    }
+
+    m_InitialVelocity[0] = m_speed * cos(m_angle * M_PI / 180.0);
+    m_InitialVelocity[1] = m_speed * sin(m_angle * M_PI / 180.0);
+    m_InitialPosition[1] = m_height;
+
+}
+
+//void MyOpenGLWidget::drawBall()
+//{
+//  //  ball_render->drawBall();
+
+//}
 
 
 
@@ -260,37 +325,6 @@ void MyOpenGLWidget::paintGL()
 
 
     //renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
-
-}
-
-void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
-{
-
-    switch (sliderName) {
-    case Mass:
-        m_mass = static_cast<float>(value) / 1.0f;
-        break;
-    case Speed:
-        m_speed = static_cast<float>(value) / 1.0f;
-        break;
-    case Angle:
-        m_angle = static_cast<float>(value) / 1.0f;
-        break;
-    case Height:
-        m_height = static_cast<float>(value) / 1.0f;
-        break;
-    default:
-        break;
-    }
-
-}
-
-//void MyOpenGLWidget::drawBall()
-//{
-//  //  ball_render->drawBall();
-
-//}
-
 
 
 

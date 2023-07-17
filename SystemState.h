@@ -11,7 +11,6 @@ class SystemState
 
 private:
     QVector3D m_position, m_velocity, m_acceleration;
-    float m_mass;
 
     QVector3D scalar_product(QVector3D vector, float scalar);
     float dot_product(QVector3D vec1, QVector3D vec2);
@@ -20,7 +19,7 @@ private:
 
 public:
 
-    SystemState(float mass, QVector3D velocity);
+    SystemState(QVector3D velocity);
 
     QVector3D GetTranslation(float dt);
 

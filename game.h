@@ -4,6 +4,8 @@
 #include "MyOpenGLWidget.h"
 
 
+
+
 namespace Ui {
 class Game;
 }
@@ -19,10 +21,10 @@ public:
 
 signals:
     void sliderValueChanged(int value, const SliderType sliderName);
+    void pushButton_fire_clicked();
 
 private slots:
     void on_pushButton_exit_clicked();
-
 
 private:
     Ui::Game *ui;

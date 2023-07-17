@@ -12,25 +12,24 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
-#include "BallRenderer.h"
+#include "AnimationThread.h"
 
 #include <QImage>
 #include <QTimer>
 
-
 enum SliderType {
-    Mass,
     Speed,
     Angle,
     Height
 };
 
+
 class MyOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
-    float m_mass, m_speed, m_angle, m_height;
-    SystemState m_ball;
-    QTimer animationTimer;
+    float m_speed, m_angle, m_height;
+    QVector3D m_InitialVelocity, m_InitialPosition;
+    QMatrix4x4 m_ballMVP, m_rectangleMVP;
 
 
     QString m_vertexShaderPath = "/home/henry/Documents/Programming/Project/QT_Hydromotion/vertexShader.vert";
@@ -42,6 +41,7 @@ public:
       VertexBuffer* vbo_ball, *vbo_rectangle;
       VertexBufferLayout layout_ball, layout_rectangle;
       Renderer renderer;
+      AnimationThread* animationThread;
 
 
 
@@ -56,7 +56,8 @@ public:
 
 public slots:
     void on_sliderValueChanged(int value, const SliderType sliderName);
-    void drawBall();
+    void on_pushButton_fire_clicked();
+    void updateBallPosition(QMatrix4x4 mvp);
 
 protected:
     virtual void initializeGL() override;
