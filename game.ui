@@ -68,7 +68,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox">
+  <widget class="QSpinBox" name="spinBox_height">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -78,7 +78,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox_2">
+  <widget class="QSpinBox" name="spinBox_angle">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -88,7 +88,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QSpinBox" name="spinBox_3">
+  <widget class="QSpinBox" name="spinBox_velocity">
    <property name="geometry">
     <rect>
      <x>840</x>
@@ -212,7 +212,7 @@
   <connection>
    <sender>horizontalSlider_speed</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox_3</receiver>
+   <receiver>spinBox_velocity</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -226,7 +226,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_3</sender>
+   <sender>spinBox_velocity</sender>
    <signal>valueChanged(int)</signal>
    <receiver>horizontalSlider_speed</receiver>
    <slot>setValue(int)</slot>
@@ -244,7 +244,7 @@
   <connection>
    <sender>horizontalSlider_angle</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox_2</receiver>
+   <receiver>spinBox_angle</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -258,7 +258,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox_2</sender>
+   <sender>spinBox_angle</sender>
    <signal>valueChanged(int)</signal>
    <receiver>horizontalSlider_angle</receiver>
    <slot>setValue(int)</slot>
@@ -276,7 +276,7 @@
   <connection>
    <sender>horizontalSlider_height</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>spinBox</receiver>
+   <receiver>spinBox_height</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -290,7 +290,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>spinBox</sender>
+   <sender>spinBox_height</sender>
    <signal>valueChanged(int)</signal>
    <receiver>horizontalSlider_height</receiver>
    <slot>setValue(int)</slot>

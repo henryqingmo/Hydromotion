@@ -26,7 +26,8 @@
 ///#include "glm/gtc/type_ptr.hpp"
 //#include "glm/gtc/matrix_transform.hpp"
 
-MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_speed(0.0f), m_angle(0.0f), m_height(0.0f)
+MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_speed(0.0f), m_angle(0.0f), m_height(0.0f),
+    m_InitialVelocity(0.0, 0.0, 0.0), m_InitialPosition(0.0, 0.0, 0.0)
 {
 
 }
@@ -221,17 +222,17 @@ void MyOpenGLWidget::on_pushButton_fire_clicked()
 
     float duration = 2.0f;
 
-    QMatrix4x4 proj, view;
+    QMatrix4x4 proj, view, model;
 
     proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
-    QVector3D velocity(2.0f, 5.0f, 0.0f);
+    model.translate(m_InitialPosition);
 
-    animationThread = new AnimationThread(velocity);
+    animationThread = new AnimationThread(m_InitialVelocity);
 
     connect(animationThread, &AnimationThread::updateBallPosition, this, &MyOpenGLWidget::updateBallPosition);
 
-    animationThread->setParameters(dt, duration, proj, view);
+    animationThread->setParameters(dt, duration, proj, view, model);
 
     animationThread->start();
 

@@ -5,13 +5,13 @@ AnimationThread::AnimationThread(QVector3D InitialVelocity)
 {
 }
 
-void AnimationThread::setParameters(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view)
+void AnimationThread::setParameters(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view, QMatrix4x4 model)
 {
     this->m_dt = dt;
     this->m_duration = duration;
-//    this->m_proj = proj;
+    this->m_proj = proj;
     this->m_view = view;
-    m_proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
+    this->m_model = model;
 }
 
 
@@ -21,7 +21,7 @@ void AnimationThread::run()
     {
         m_view.setToIdentity();
         m_view.translate(m_ball.GetTranslation(m_dt * i));
-        mvp = m_proj * m_view;
+        mvp = m_proj * m_view * m_model;
         emit updateBallPosition(mvp);
         msleep(16);
     }
