@@ -31,9 +31,9 @@ void Shader::SetUniformValue(const char *name, const QVector4D &vector)
 
 }
 
-void Shader::AddBuffer(const VertexBufferLayout &layout)
+void Shader::AddBuffer(VertexBuffer* vbo, const VertexBufferLayout &layout)
 {
-    //vbo.bind();
+    vbo->bind();
 
      unsigned int offset = 0;
     const auto& elements = layout.GetElement();

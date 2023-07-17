@@ -1,5 +1,5 @@
 QT       += core gui \
-            openglwidgets
+            opengl
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -13,10 +13,10 @@ CONFIG += c++17 \
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AnimationThread.cpp \
     IndexBuffer.cpp \
     MainMenu.cpp \
     MyOpenGLWidget.cpp \
-    MyThread.cpp \
     OptionMenu.cpp \
     Renderer.cpp \
     Shader.cpp \
@@ -29,11 +29,11 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    AnimationThread.h \
     Debug.h \
     IndexBuffer.h \
     MainMenu.h \
     MyOpenGLWidget.h \
-    MyThread.h \
     OptionMenu.h \
     Renderer.h \
     Shader.h \

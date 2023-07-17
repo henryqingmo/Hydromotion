@@ -10,7 +10,7 @@ class SystemState
 {
 
 private:
-    QVector3D m_position, m_velocity, m_force, m_acceleration;
+    QVector3D m_position, m_velocity, m_acceleration;
     float m_mass;
 
     QVector3D scalar_product(QVector3D vector, float scalar);

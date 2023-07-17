@@ -38,7 +38,7 @@ public:
     void SetUniformValue(const char* name, const QMatrix4x4& matrix);
     void SetUniformValue(const char* name, const QVector4D& vector);
 
-    void AddBuffer(const VertexBufferLayout& layout);
+    void AddBuffer(VertexBuffer* vbo, const VertexBufferLayout& layout);
 
     unsigned int GetUniformLocation(const char* name) const;
 };

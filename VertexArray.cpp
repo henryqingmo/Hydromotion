@@ -5,7 +5,7 @@
 VertexArray::VertexArray() : m_glFunctions(0)
 {
     m_vao.create();
-    //bind();
+    bind();
 
 }
 
@@ -31,6 +31,8 @@ void VertexArray::AddBuffer(VertexBuffer &vbo, const VertexBufferLayout& layout)
         m_glFunctions->glEnableVertexAttribArray(i);
         m_glFunctions->glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.GetStride(), reinterpret_cast<void*>(offset));
         offset += element.count * VertexBufferElement::GetSizeOfType(element.type);
+
+       // m_glFunctions->glDisableVertexAttribArray(i);
 
     }
 

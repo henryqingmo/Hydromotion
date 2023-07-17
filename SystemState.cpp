@@ -1,6 +1,6 @@
 #include "SystemState.h"
 
-SystemState::SystemState(float mass, QVector3D velocity) : m_velocity(velocity), m_mass(mass), m_position(QVector3D(0.0f, 0.0f, 0.0f)), m_acceleration(QVector3D(0.0f, -9.8f, 0.0f))
+SystemState::SystemState(QVector3D velocity) : m_position(QVector3D(0.0f, 0.0f, 0.0f)),  m_velocity(velocity), m_acceleration(QVector3D(0.0f, -9.8f, 0.0f))
 {
 }
 

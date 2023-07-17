@@ -1,5 +1,6 @@
 #include "game.h"
 #include "ui_game.h"
+#include "AnimationThread.h"
 #include <QVBoxLayout>
 #include <QDebug>
 
