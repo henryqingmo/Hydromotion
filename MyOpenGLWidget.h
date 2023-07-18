@@ -20,14 +20,15 @@
 enum SliderType {
     Speed,
     Angle,
-    Height
+    Height,
+    Time
 };
 
 
 class MyOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 private:
-    float m_speed, m_angle, m_height;
+    float m_speed, m_angle, m_height, m_dt;
     QVector3D m_InitialVelocity, m_InitialPosition;
     QMatrix4x4 m_ballMVP, m_rectangleMVP;
 

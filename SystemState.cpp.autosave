@@ -18,9 +18,10 @@ QVector3D SystemState::GetTranslation(float dt)
     return m_position;
 }
 
-float SystemState::CollisionDetection(float dt, float height, QVector3D m_velocity)
+float SystemState::CollisionDetection(float dt, float height, float velocity)
 {
-    while()
+    m_velocity[1] = velocity;
+    m_po
 
 }
 

@@ -218,8 +218,9 @@ void MyOpenGLWidget::paintGL()
 
 void MyOpenGLWidget::on_pushButton_fire_clicked()
 {
-    float dt = 0.01f;
+    //float dt = 0.01f;
 
+    //collision detection to get duration
     float duration = 2.0f;
 
     QMatrix4x4 proj, view, model;
@@ -232,7 +233,7 @@ void MyOpenGLWidget::on_pushButton_fire_clicked()
 
     connect(animationThread, &AnimationThread::updateBallPosition, this, &MyOpenGLWidget::updateBallPosition);
 
-    animationThread->setParameters(dt, duration, proj, view, model);
+    animationThread->setParameters(m_dt, duration, proj, view, model);
 
     animationThread->start();
 
@@ -254,6 +255,8 @@ void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
     case Height:
         m_height = static_cast<float>(value) / 1.0f;
         break;
+    case Time:
+        m_dt = static_cast<float>(value) / 1000.0f;
     default:
         break;
     }
