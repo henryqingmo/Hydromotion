@@ -29,6 +29,7 @@
 MyOpenGLWidget::MyOpenGLWidget(QWidget *parent) : QOpenGLWidget(parent), m_speed(0.0f), m_angle(0.0f), m_height(0.0f),
     m_InitialVelocity(0.0, 0.0, 0.0), m_InitialPosition(0.0, 0.0, 0.0)
 {
+    m_proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
 
 }
 
@@ -45,10 +46,10 @@ void MyOpenGLWidget::initializeRectangle()
 {
 
  std::vector<glm::vec3> rectangleVertices = {
+        glm::vec3(-2.0f, -1.5f, 0.0f),
         glm::vec3(-1.9f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.5f, 0.0f),
-        glm::vec3(-1.8f, -1.0f, 0.0f),
-        glm::vec3(-1.9f, -1.0f, 0.0f)
+        glm::vec3(-1.9f, -1.4f, 0.0f),
+        glm::vec3(-2.0f, -1.4f, 0.0f)
     };
 
 
@@ -63,7 +64,7 @@ void MyOpenGLWidget::initializeRectangle()
 
 
 
-    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.003f);
+    QVector4D color_rectangle(0.0f, 0.0f, 0.0f, 0.0f);
 
     //vao_rectangle.bind();
 
@@ -127,39 +128,42 @@ void MyOpenGLWidget::initializeBall()
 
 void MyOpenGLWidget::updateBallPosition(QMatrix4x4 mvp)
 {
-
- //   shader_ball->SetUniformValue("u_MVP", mvp);
-    //QMatrix4x4 proj, view;
-    // proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
     m_ballMVP = mvp;
+    update();
+}
+
+void MyOpenGLWidget::transformation()
+{
+    QMatrix4x4 model, view;
+
+    model.translate(0.0f, m_height * 2, 0.0f);
+
+    m_rectangleTranslation = view * model;
+
+    update();
+
+
+}
+
+void MyOpenGLWidget::rotation()
+{
+    QMatrix4x4 model, view;
+    float pivot_x = -1.95, pivot_y = -1.45;
+
+    view.setToIdentity();
+
+    model.translate(pivot_x, pivot_y, 0.0f);
+
+    model.rotate(m_angle, QVector3D(0.0f, 0.0f, 1.0f)); // Rotate from x axis to y axis 2D
+
+    model.translate(-pivot_x, -pivot_y, 0.0f);
+
+    m_rectangleRotation = view * model;
+
     update();
 
 }
 
-//void MyOpenGLWidget::fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view)
-//{
-//    shader_ball->AddBuffer(vbo_ball, layout_ball);
-//    SystemState m_ball({2,5,0});
-
-//      for(float i = 0.0f; i < duration; i+=dt)
-//    {
-//        view.setToIdentity();
-//        view.translate(m_ball.GetTranslation(dt * i));
-
-//        QMatrix4x4 mvp = proj * view;
-//        shader_ball->SetUniformValue("u_MVP", mvp);
-//        renderer.draw(vao_ball, ibo_ball, shader_ball);
-
-//    }
-//}
-
-//void MyOpenGLWidget::transformation(QMatrix4x4 proj, QMatrix4x4 view)
-//{
-//    shader_rectangle->AddBuffer(vbo_rectangle, layout_rectangle);
-
-//    shader_rectangle->SetUniformValue("u_MVP", proj);
-//    renderer.draw(vao_rectangle, ibo_rectangle, shader_rectangle);
-//}
 
 void MyOpenGLWidget::initializeGL()
 {
@@ -174,9 +178,9 @@ void MyOpenGLWidget::initializeGL()
 
     initializeBall();
 
-    //initializeRectangle();
+    initializeRectangle();
 
- }
+}
 
 
 void MyOpenGLWidget::resizeGL(int w, int h)
@@ -185,34 +189,17 @@ void MyOpenGLWidget::resizeGL(int w, int h)
 }
 
 
+
 void MyOpenGLWidget::paintGL()
 {
     if(animationThread)
     {
-        shader_ball->AddBuffer(vbo_ball, layout_ball);
-        shader_ball->SetUniformValue("u_MVP", m_ballMVP);
-        glDrawElements(GL_TRIANGLES, ibo_ball->getCount(), GL_UNSIGNED_INT, 0);
+        renderer.draw(vao_ball, ibo_ball, vbo_ball, shader_ball, layout_ball, m_ballMVP);
+
     }
 
-
-//    float dt = 0.01f;
-//    float duration = 2.0f;
-
-
-//    QMatrix4x4 proj, view;
-
-//    proj.ortho(-2.0f, 2.0f, -1.5f, 1.5f, -1.0f, 1.0f);
-
-
-//    view.setToIdentity();
-
-
-//    GetError();
-
-
-//   transformation(proj, view);
-
-   //fire(dt, duration, proj, view);
+    QMatrix4x4 RectangleMVP = m_proj * m_rectangleTranslation * m_rectangleRotation;
+    renderer.draw(vao_rectangle, ibo_rectangle, vbo_rectangle, shader_rectangle, layout_rectangle, RectangleMVP);
 
 
 }
@@ -258,9 +245,11 @@ void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
         break;
     case Angle:
         m_angle = static_cast<float>(value) / 1.0f;
+        rotation();
         break;
-    case Height:
+           case Height:
         m_height = static_cast<float>(value) / 100.0f;
+        transformation();
         break;
     case Time:
         m_time = static_cast<float>(value) / 10.0f;

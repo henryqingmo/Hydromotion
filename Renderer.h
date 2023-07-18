@@ -9,7 +9,7 @@
 class Renderer
 {
 public:
-    void draw(VertexArray& vao, IndexBuffer* ibo, Shader* shader) const;
+    void draw(VertexArray& vao, IndexBuffer* ibo, VertexBuffer* vbo, Shader* shader, VertexBufferLayout layout, QMatrix4x4 mvp) const;
 };
 
 #endif // RENDERER_H

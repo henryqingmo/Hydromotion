@@ -32,7 +32,7 @@ class MyOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 private:
     float m_speed, m_angle, m_height, m_time, m_duration;
     QVector3D m_InitialVelocity, m_InitialPosition;
-    QMatrix4x4 m_ballMVP, m_rectangleMVP;
+    QMatrix4x4 m_proj, m_ballMVP, m_rectangleRotation, m_rectangleTranslation;
 
 
     QString m_vertexShaderPath = "/home/henry/Documents/Programming/Project/QT_Hydromotion/vertexShader.vert";
@@ -55,7 +55,8 @@ public:
 
 
     void fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view);
-    void transformation(QMatrix4x4 proj, QMatrix4x4 lw);
+    void transformation();
+    void rotation();
 
 signals:
     void projectileDataUpdate(QVector3D projectileData);
