@@ -1,17 +1,18 @@
 #include "AnimationThread.h"
 
-AnimationThread::AnimationThread(QVector3D InitialVelocity)
-    : m_ball(InitialVelocity)
+AnimationThread::AnimationThread(SystemState ball)
+    : m_ball(ball)
 {
 }
 
-void AnimationThread::setParameters(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view, QMatrix4x4 model)
+void AnimationThread::setParameters(float dt, float duration, float time, QMatrix4x4 proj, QMatrix4x4 view, QMatrix4x4 model)
 {
     this->m_dt = dt;
     this->m_duration = duration;
     this->m_proj = proj;
     this->m_view = view;
     this->m_model = model;
+    this->m_time = time;
 }
 
 
@@ -23,7 +24,7 @@ void AnimationThread::run()
         m_view.translate(m_ball.GetTranslation(m_dt * i));
         mvp = m_proj * m_view * m_model;
         emit updateBallPosition(mvp);
-        msleep(16);
+        msleep(m_time);
     }
 
 

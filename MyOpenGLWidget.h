@@ -27,8 +27,10 @@ enum SliderType {
 
 class MyOpenGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
+    Q_OBJECT
+
 private:
-    float m_speed, m_angle, m_height, m_dt;
+    float m_speed, m_angle, m_height, m_time, m_duration;
     QVector3D m_InitialVelocity, m_InitialPosition;
     QMatrix4x4 m_ballMVP, m_rectangleMVP;
 
@@ -54,6 +56,9 @@ public:
 
     void fire(float dt, float duration, QMatrix4x4 proj, QMatrix4x4 view);
     void transformation(QMatrix4x4 proj, QMatrix4x4 lw);
+
+signals:
+    void projectileDataUpdate(QVector3D projectileData);
 
 public slots:
     void on_sliderValueChanged(int value, const SliderType sliderName);

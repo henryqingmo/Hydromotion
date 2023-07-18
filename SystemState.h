@@ -10,7 +10,7 @@ class SystemState
 {
 
 private:
-    QVector3D m_position, m_velocity, m_acceleration;
+    QVector3D m_position, m_InitialVelocity, m_velocity, m_acceleration;
 
     float dot_product(QVector3D vec1, QVector3D vec2);
     void Euler_ODE_Solver(float dt);
@@ -21,7 +21,7 @@ public:
 
     SystemState(QVector3D velocity);
     QVector3D GetTranslation(float dt);
-    float CollisionDetection(float dt, QVector3D m_velocity);
+    QVector3D CollisionDetection(float dt, QVector3D InitialPosition);
 
 
 };

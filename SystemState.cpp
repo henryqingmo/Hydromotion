@@ -1,6 +1,7 @@
 #include "SystemState.h"
 
-SystemState::SystemState(QVector3D velocity) : m_position(QVector3D(0.0f, 0.0f, 0.0f)),  m_velocity(velocity), m_acceleration(QVector3D(0.0f, -9.8f, 0.0f))
+SystemState::SystemState(QVector3D velocity) : m_position(0.0,0.0,0.0), m_InitialVelocity(velocity),
+    m_velocity(m_InitialVelocity), m_acceleration(0.0f, -9.8f, 0.0f)
 {
 }
 
@@ -18,9 +19,28 @@ QVector3D SystemState::GetTranslation(float dt)
     return m_position;
 }
 
-float SystemState::CollisionDetection(float dt, float height, QVector3D m_velocity)
+QVector3D SystemState::CollisionDetection(float dt, QVector3D InitialPosition)
 {
-    while()
+    float i = 0, Range = 0;
+    float MaxHeight = InitialPosition[1];
+    m_position = InitialPosition * 2;
+
+    while(m_position[1] >= 0)
+    {
+        Euler_ODE_Solver(dt * i);
+
+        i+=dt;
+
+        if(m_position[1] > MaxHeight)
+        {
+            MaxHeight = m_position[1];
+        }
+
+    }
+    Range = m_position[0] - InitialPosition[0];
+    m_position = InitialPosition;
+    m_velocity = m_InitialVelocity;
+    return {i, MaxHeight, Range};
 
 }
 

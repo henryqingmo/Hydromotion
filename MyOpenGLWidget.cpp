@@ -96,8 +96,8 @@ void MyOpenGLWidget::initializeBall()
     float radius = 0.05f, angle = 2 * M_PI * M_PI / vertexCount; // for some reason, 2 pi only display a section of the circle
     for (int i = 0; i < vertexCount; i++)  // convert polar coordinate to cartesian form
     {
-        float x = radius * cos(angle * i) - 1.85;
-        float y = radius * sin(angle * i) - 0.95;
+        float x = radius * cos(angle * i) - 1.95;
+        float y = radius * sin(angle * i) - 1.45;
         float z = 0.0f;
         ball_position.push_back(glm::vec3(x, y, z));
     }
@@ -174,7 +174,7 @@ void MyOpenGLWidget::initializeGL()
 
     initializeBall();
 
-   // initializeRectangle();
+    //initializeRectangle();
 
  }
 
@@ -187,9 +187,12 @@ void MyOpenGLWidget::resizeGL(int w, int h)
 
 void MyOpenGLWidget::paintGL()
 {
-    shader_ball->AddBuffer(vbo_ball, layout_ball);
-    shader_ball->SetUniformValue("u_MVP", m_ballMVP);
-    glDrawElements(GL_TRIANGLES, ibo_ball->getCount(), GL_UNSIGNED_INT, 0);
+    if(animationThread)
+    {
+        shader_ball->AddBuffer(vbo_ball, layout_ball);
+        shader_ball->SetUniformValue("u_MVP", m_ballMVP);
+        glDrawElements(GL_TRIANGLES, ibo_ball->getCount(), GL_UNSIGNED_INT, 0);
+    }
 
 
 //    float dt = 0.01f;
@@ -218,10 +221,15 @@ void MyOpenGLWidget::paintGL()
 
 void MyOpenGLWidget::on_pushButton_fire_clicked()
 {
-    //float dt = 0.01f;
+    SystemState ball(m_InitialVelocity);
 
-    //collision detection to get duration
-    float duration = 2.0f;
+    float dt = 0.001;
+
+
+    QVector3D projectileData = ball.CollisionDetection(dt, m_InitialPosition);
+    m_duration = projectileData[0];
+    emit projectileDataUpdate(projectileData);
+
 
     QMatrix4x4 proj, view, model;
 
@@ -229,17 +237,16 @@ void MyOpenGLWidget::on_pushButton_fire_clicked()
 
     model.translate(m_InitialPosition);
 
-    animationThread = new AnimationThread(m_InitialVelocity);
+    animationThread = new AnimationThread(ball);
 
     connect(animationThread, &AnimationThread::updateBallPosition, this, &MyOpenGLWidget::updateBallPosition);
 
-    animationThread->setParameters(m_dt, duration, proj, view, model);
+    animationThread->setParameters(dt, m_duration, m_time, proj, view, model);
 
     animationThread->start();
 
 
 }
-
 
 
 void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
@@ -253,10 +260,10 @@ void MyOpenGLWidget::on_sliderValueChanged(int value, SliderType sliderName)
         m_angle = static_cast<float>(value) / 1.0f;
         break;
     case Height:
-        m_height = static_cast<float>(value) / 1.0f;
+        m_height = static_cast<float>(value) / 100.0f;
         break;
     case Time:
-        m_dt = static_cast<float>(value) / 1000.0f;
+        m_time = static_cast<float>(value) / 10.0f;
     default:
         break;
     }
