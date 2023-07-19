@@ -17,14 +17,13 @@ public:
     ~MainMenu();
 
 private slots:
-    void on_selectButton_clicked();
+    void on_startButton_clicked();
 
     void on_quitButton_clicked();
 
-    void on_creditButton_clicked();
-
     void on_optionButton_clicked();
 
+    void on_helpButton_clicked();
 
 private:
     Ui::MainMenu *ui;

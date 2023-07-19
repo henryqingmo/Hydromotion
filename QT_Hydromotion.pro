@@ -14,10 +14,11 @@ CONFIG += c++17 \
 
 SOURCES += \
     AnimationThread.cpp \
+    HelpDialog.cpp \
     IndexBuffer.cpp \
     MainMenu.cpp \
     MyOpenGLWidget.cpp \
-    OptionMenu.cpp \
+    OptionDialog.cpp \
     Renderer.cpp \
     Shader.cpp \
     SystemState.cpp \
@@ -31,10 +32,11 @@ SOURCES += \
 HEADERS += \
     AnimationThread.h \
     Debug.h \
+    HelpDialog.h \
     IndexBuffer.h \
     MainMenu.h \
     MyOpenGLWidget.h \
-    OptionMenu.h \
+    OptionDialog.h \
     Renderer.h \
     Shader.h \
     SystemState.h \
@@ -45,8 +47,9 @@ HEADERS += \
     game.h
 
 FORMS += \
+    HelpDialog.ui \
     MainMenu.ui \
-    OptionMenu.ui \
+    OptionDialog.ui \
     game.ui
 
 # Default rules for deployment.

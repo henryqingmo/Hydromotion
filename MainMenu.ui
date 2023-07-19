@@ -24,9 +24,9 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="selectButton">
+     <widget class="QPushButton" name="startButton">
       <property name="text">
-       <string>SELECT LEVEL </string>
+       <string>START</string>
       </property>
      </widget>
     </item>
@@ -38,9 +38,9 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="creditButton">
+     <widget class="QPushButton" name="helpButton">
       <property name="text">
-       <string>CREDIT</string>
+       <string>HELP</string>
       </property>
      </widget>
     </item>

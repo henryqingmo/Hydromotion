@@ -5,6 +5,7 @@
 #include <QVector3D>
 #include <cmath>
 #include <QThread>
+#include <QtMultimedia/QMediaPlayer>
 
 class AnimationThread : public QThread
 {
@@ -26,6 +27,7 @@ signals:
 
 protected:
     void run() override;
+    QMediaPlayer *player;
 
 
 };

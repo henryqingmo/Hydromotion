@@ -31,7 +31,7 @@ void Game::createOpenGLWidget(MyOpenGLWidget *glwidget)
     connect(ui->horizontalSlider_height, &QSlider::valueChanged, glwidget, [=](int value){glwidget->on_sliderValueChanged(value, Height);});
 
     //lambda function emitting value and an enum value that's defined in MyOpenGL class
-    ui->horizontalSlider_speed->setRange(0, 6);
+    ui->horizontalSlider_speed->setRange(0, 7);
     ui->horizontalSlider_angle->setRange(-90, 90);
     ui->horizontalSlider_height->setRange(0, 100);
     ui->horizontalSlider_time->setRange(1, 50);
