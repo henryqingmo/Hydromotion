@@ -34,7 +34,6 @@ public:
     QLabel *label_3;
     QSpinBox *spinBox_angle;
     QSlider *horizontalSlider_angle;
-    QLabel *label_4;
     QSpinBox *spinBox_height;
     QSlider *horizontalSlider_height;
     QTextEdit *textEdit;
@@ -44,6 +43,7 @@ public:
     QLabel *label;
     QPushButton *pushButton_reset;
     QPushButton *pushButton_fire;
+    QLabel *label_4;
 
     void setupUi(QWidget *Game)
     {
@@ -124,13 +124,6 @@ public:
 
         gridLayout->addWidget(horizontalSlider_angle, 3, 4, 1, 2);
 
-        label_4 = new QLabel(layoutWidget);
-        label_4->setObjectName(QString::fromUtf8("label_4"));
-        sizePolicy3.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
-        label_4->setSizePolicy(sizePolicy3);
-
-        gridLayout->addWidget(label_4, 4, 4, 1, 1);
-
         spinBox_height = new QSpinBox(layoutWidget);
         spinBox_height->setObjectName(QString::fromUtf8("spinBox_height"));
         sizePolicy3.setHeightForWidth(spinBox_height->sizePolicy().hasHeightForWidth());
@@ -196,6 +189,13 @@ public:
 
         gridLayout->addWidget(pushButton_fire, 7, 5, 1, 1);
 
+        label_4 = new QLabel(layoutWidget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        sizePolicy3.setHeightForWidth(label_4->sizePolicy().hasHeightForWidth());
+        label_4->setSizePolicy(sizePolicy3);
+
+        gridLayout->addWidget(label_4, 4, 4, 1, 1);
+
         gridLayout->setRowStretch(0, 1);
         gridLayout->setRowStretch(1, 2);
         gridLayout->setRowStretch(2, 1);
@@ -226,12 +226,12 @@ public:
         gridLayout->setRowMinimumHeight(7, 1);
 
         retranslateUi(Game);
-        QObject::connect(horizontalSlider_speed, SIGNAL(valueChanged(int)), spinBox_velocity, SLOT(setValue(int)));
         QObject::connect(spinBox_velocity, SIGNAL(valueChanged(int)), horizontalSlider_speed, SLOT(setValue(int)));
-        QObject::connect(spinBox_angle, SIGNAL(valueChanged(int)), horizontalSlider_angle, SLOT(setValue(int)));
-        QObject::connect(horizontalSlider_height, SIGNAL(valueChanged(int)), spinBox_height, SLOT(setValue(int)));
+        QObject::connect(horizontalSlider_speed, SIGNAL(valueChanged(int)), spinBox_velocity, SLOT(setValue(int)));
         QObject::connect(spinBox_angle, SIGNAL(valueChanged(int)), horizontalSlider_angle, SLOT(setValue(int)));
         QObject::connect(horizontalSlider_angle, SIGNAL(valueChanged(int)), spinBox_angle, SLOT(setValue(int)));
+        QObject::connect(spinBox_height, SIGNAL(valueChanged(int)), horizontalSlider_height, SLOT(setValue(int)));
+        QObject::connect(horizontalSlider_height, SIGNAL(valueChanged(int)), spinBox_height, SLOT(setValue(int)));
 
         QMetaObject::connectSlotsByName(Game);
     } // setupUi
@@ -241,12 +241,12 @@ public:
         Game->setWindowTitle(QCoreApplication::translate("Game", "Form", nullptr));
         label_2->setText(QCoreApplication::translate("Game", "Initial speed", nullptr));
         label_3->setText(QCoreApplication::translate("Game", "Angle", nullptr));
-        label_4->setText(QCoreApplication::translate("Game", "Height (divide 100)", nullptr));
         pushButton_exit->setText(QCoreApplication::translate("Game", "Exit", nullptr));
         label_5->setText(QCoreApplication::translate("Game", "slow", nullptr));
         label->setText(QCoreApplication::translate("Game", "Fast", nullptr));
         pushButton_reset->setText(QCoreApplication::translate("Game", "Reset", nullptr));
         pushButton_fire->setText(QCoreApplication::translate("Game", "Fire", nullptr));
+        label_4->setText(QCoreApplication::translate("Game", "Height (divide 50)", nullptr));
     } // retranslateUi
 
 };

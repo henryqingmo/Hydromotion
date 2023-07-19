@@ -1,14 +1,20 @@
 #include "./include/AnimationThread.h"
 
+/*The AnimationThread class is responsible for running the animation of the ball's movement.
+ * The constructor takes in SystemState object, which contains the ball's initial velocity
+ * The parameters are passed from game class through setParameters
+ * The main animation loop, executed when the thread is started, iterates through the animation steps based on the time step.
+ * It updates the view matrix with the ball's position at the current time step and calculates the Model-View-Projection (MVP) matrix.
+ * After each update, it emits a signal to notify the main thread to update the ball's position in the OpenGL widget.
+ * The msleep function introduces a delay between frames, controlling the animation speed.
+*/
+
+
 AnimationThread::AnimationThread(SystemState ball)
     : m_ball(ball)
 {
-//    player = new QMediaPlayer(this);
-//    player->setMedia(QUrl::fromLocalFile("path/to/your/audio/file.mp3"));
-//    player->setVolume(50); // Set the volume (0 - 100)
-//    player->play();
-
 }
+
 
 void AnimationThread::setParameters(float dt, float duration, float time, QMatrix4x4 proj, QMatrix4x4 view, QMatrix4x4 model)
 {

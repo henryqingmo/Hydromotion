@@ -36,11 +36,7 @@ public slots:
 private slots:
     void on_pushButton_exit_clicked();
 
-    void on_pushButton_reset_clicked();
-//protected:
-//    void resizeEvent(QResizeEvent* event) override;
-
-};
+    void on_pushButton_reset_clicked();};
 
 
 

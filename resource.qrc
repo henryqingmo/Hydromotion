@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/audio/bgm.mp3</file>
+        <file>res/texture/cannon.png</file>
+    </qresource>
+</RCC>

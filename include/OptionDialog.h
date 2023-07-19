@@ -1,7 +1,5 @@
 #ifndef OPTIONDIALOG_H
 #define OPTIONDIALOG_H
-#include <QtMultimedia/QMediaPlayer>
-#include <QtMultimedia/QMediaPlaylist>
 #include <QDialog>
 
 namespace Ui {
@@ -16,13 +14,15 @@ public:
     explicit OptionDialog(QWidget *parent = nullptr);
     ~OptionDialog();
 
+signals:
+    void musicStateChanged(bool checked);
+
 private slots:
     void on_checkBox_clicked(bool checked);
 
 private:
     Ui::OptionDialog *ui;
-    QMediaPlayer *musicPlayer;
-    QMediaPlaylist *playlist;
+
 
 };
 

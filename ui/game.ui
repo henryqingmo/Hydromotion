@@ -120,19 +120,6 @@
       </property>
      </widget>
     </item>
-    <item row="4" column="4">
-     <widget class="QLabel" name="label_4">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>16</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="text">
-       <string>Height (divide 100)</string>
-      </property>
-     </widget>
-    </item>
     <item row="4" column="5">
      <widget class="QSpinBox" name="spinBox_height">
       <property name="sizePolicy">
@@ -244,6 +231,19 @@
       </property>
      </widget>
     </item>
+    <item row="4" column="4">
+     <widget class="QLabel" name="label_4">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>16</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text">
+       <string>Height (divide 100)</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>
@@ -257,34 +257,34 @@
  <resources/>
  <connections>
   <connection>
-   <sender>horizontalSlider_speed</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_velocity</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>899</x>
-     <y>143</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>899</x>
-     <y>72</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>spinBox_velocity</sender>
    <signal>valueChanged(int)</signal>
    <receiver>horizontalSlider_speed</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>899</x>
-     <y>72</y>
+     <x>845</x>
+     <y>50</y>
     </hint>
     <hint type="destinationlabel">
-     <x>899</x>
-     <y>143</y>
+     <x>801</x>
+     <y>112</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_speed</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_velocity</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>881</x>
+     <y>118</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>880</x>
+     <y>51</y>
     </hint>
    </hints>
   </connection>
@@ -292,47 +292,15 @@
    <sender>spinBox_angle</sender>
    <signal>valueChanged(int)</signal>
    <receiver>horizontalSlider_angle</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>899</x>
-     <y>182</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>899</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>horizontalSlider_height</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBox_height</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>830</x>
-     <y>426</y>
+     <y>174</y>
     </hint>
     <hint type="destinationlabel">
-     <x>899</x>
-     <y>324</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBox_angle</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>horizontalSlider_angle</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>835</x>
-     <y>168</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>785</x>
-     <y>237</y>
+     <x>808</x>
+     <y>239</y>
     </hint>
    </hints>
   </connection>
@@ -343,12 +311,44 @@
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>220</y>
+     <x>852</x>
+     <y>256</y>
     </hint>
     <hint type="destinationlabel">
-     <x>842</x>
-     <y>155</y>
+     <x>858</x>
+     <y>178</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox_height</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>horizontalSlider_height</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>811</x>
+     <y>310</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>784</x>
+     <y>364</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>horizontalSlider_height</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>spinBox_height</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>858</x>
+     <y>368</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>887</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>

@@ -1,6 +1,9 @@
 #include "./include/Texture.h"
 #include <QImage>
 
+/* My Abstration of OpenGL implementation of converting image into Texture
+ */
+
 Texture::Texture(QString& path)
     :m_FilePath(path), m_textureId(0), m_texture(nullptr), m_width(0), m_height(0), m_BPP(0)
 {

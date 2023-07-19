@@ -1,25 +1,47 @@
 #include "./include/MainMenu.h"
 #include "./ui/ui_MainMenu.h"
-#include "./include/OptionDialog.h"
 #include "./include/HelpDialog.h"
 #include "./include/game.h"
 #include <iostream>
+
+/* This file basically connects all the click on startButton, optionButton etc
+ * to a function that creates an instance of those windows.
+ * It also recieve a signal from OptionDialog which contains a bool
+ * variable for musicState. The music is played if it's true
+ * and stopped if it's false.
+ */
+
 
 MainMenu::MainMenu(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainMenu)
 {
     ui->setupUi(this);
-   // player = new QMediaPlayer(this);
-//    player->setMedia(QUrl::fromLocalFile("path/to/your/audio/file.mp3")); // Replace with your audio file's path
-//    player->setVolume(50); // Set the volume (0 - 100)
-//    player->play();
+    option_dialog = new OptionDialog(this);
+    musicPlayer = new QMediaPlayer(this);
+    playlist = new QMediaPlaylist(this);
+    //QString currentDir = QDir::currentPath();
+    playlist->addMedia(QUrl("qrc:/res/audio/bgm.mp3"));
+    playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    musicPlayer->setPlaylist(playlist);
 
 }
 
 MainMenu::~MainMenu()
 {
     delete ui;
+}
+
+void MainMenu::handleMusicStateChanged(bool checked)
+{
+    if(checked == true)
+    {
+        musicPlayer->play();
+    }
+    else
+    {
+        musicPlayer->stop();
+    }
 }
 
 
@@ -40,9 +62,9 @@ void MainMenu::on_quitButton_clicked()
 
 void MainMenu::on_optionButton_clicked()
 {
-    OptionDialog option_dialog;
-    option_dialog.setModal(true);
-    option_dialog.exec();
+    option_dialog->setModal(true);
+    connect(option_dialog, &OptionDialog::musicStateChanged, this, &MainMenu::handleMusicStateChanged);
+    option_dialog->exec();
 }
 
 

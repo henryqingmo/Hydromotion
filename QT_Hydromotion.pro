@@ -63,3 +63,6 @@ UI_HEADERS_DESTDIR = ui
 DISTFILES += \
     src/shaders/fragmentShader.frag \
     src/shaders/vertexShader.vert
+
+RESOURCES += \
+    resource.qrc

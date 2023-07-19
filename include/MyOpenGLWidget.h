@@ -10,6 +10,7 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include "Shader.h"
+#include "Texture.h"
 #include "AnimationThread.h"
 
 #include <QImage>
@@ -35,6 +36,7 @@ private:
     QString currentDir = QDir::currentPath();
     QString m_vertexShaderPath = currentDir + "/src/shaders/vertexShader.vert";
     QString m_fragmentShaderPath = currentDir + "/src/shaders/fragmentShader.frag";
+    QString m_texturePath = "qrc:/res/texture/cannon.png";
 
 
 
@@ -45,6 +47,7 @@ public:
       VertexBuffer* vbo_ball, *vbo_rectangle;
       VertexBufferLayout layout_ball, layout_rectangle;
       Renderer renderer;
+      Texture* texture;
       AnimationThread* animationThread;
 
 

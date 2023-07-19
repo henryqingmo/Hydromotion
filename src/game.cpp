@@ -4,6 +4,16 @@
 #include <QDebug>
 
 
+/* This file is a responsible for connecting the slider value to the MyOpenGLWidget class
+ * This is done through the signal slot feature in QT. A signal can be connected to a class
+ * via a slot. In this example, glwidget which is an instance of MyOpenGLWidget has slots that
+ * recieve the slider values from the Game class, and it also emits signals of the projectionData
+ * to the Game class.
+ */
+
+
+
+
 Game::Game(QWidget *parent):
     QWidget(parent),
     ui(new Ui::Game)
@@ -42,6 +52,7 @@ void Game::createOpenGLWidget(MyOpenGLWidget *glwidget)
 
 }
 
+// Displaying to the textEdit
 void Game::on_ProjectileDataUpdate(QVector3D projectileDate)
 {
     QString durationString = QString::number(projectileDate[0]);
@@ -50,7 +61,7 @@ void Game::on_ProjectileDataUpdate(QVector3D projectileDate)
 
     ui->textEdit->clear();
     ui->textEdit->append("Note: The values are inaccurate\n");
-    ui->textEdit->append("Duration: " + durationString);
+    ui->textEdit->append("Time: " + durationString);
     ui->textEdit->append("Max Height: " + maxHeightString);
     ui->textEdit->append("Range: " + rangeString);
 
@@ -63,7 +74,7 @@ void Game::on_pushButton_exit_clicked()
 }
 
 
-
+// Setting the initial value of the slider
 
 void Game::on_pushButton_reset_clicked()
 {
@@ -74,19 +85,3 @@ void Game::on_pushButton_reset_clicked()
     ui->textEdit->clear();
 
 }
-
-//void Game::resizeEvent(QResizeEvent *event)
-//{
-//    const double aspectRatio = 16.0 / 9.0;
-//    QSize size = event->size();
-//    int newWidth = size.width();
-//    int newHeight = static_cast<int>(size.width() / aspectRatio);
-
-//    // Set the new size
-//    this->resize(newWidth, newHeight);
-
-//    // Call the base class implementation
-//    QMainWindow::resizeEvent(event);
-
-//}
-

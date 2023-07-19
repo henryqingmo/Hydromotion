@@ -1,6 +1,9 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+#include <QtMultimedia/QMediaPlayer>
+#include <QtMultimedia/QMediaPlaylist>
+#include "./include/OptionDialog.h"
 #include <QWidget>
 #include "game.h"
 
@@ -16,6 +19,9 @@ public:
     MainMenu(QWidget *parent = nullptr);
     ~MainMenu();
 
+public slots:
+    void handleMusicStateChanged(bool checked);
+
 private slots:
     void on_startButton_clicked();
 
@@ -28,7 +34,9 @@ private slots:
 private:
     Ui::MainMenu *ui;
     Game *game;
-    QMediaPlayer *player;
+    OptionDialog* option_dialog;
+    QMediaPlayer *musicPlayer;
+    QMediaPlaylist *playlist;
 
 };
 #endif // MAINMENU_H

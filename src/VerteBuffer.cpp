@@ -1,5 +1,8 @@
 #include "./include/VertexBuffer.h"
 
+/* My abstration of OpenGL implementation of the vertexBuffer
+ */
+
 VertexBuffer::VertexBuffer(const void* data, unsigned int size)
 {
     m_Buffer.create();

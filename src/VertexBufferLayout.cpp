@@ -1,5 +1,10 @@
 #include "./include/VertexBufferLayout.h"
 
+/* This class abstracts the code for setting
+ * the {type, count, normalized} parameters that's
+ * requried by the shader
+ */
+
 VertexBufferLayout::VertexBufferLayout()
     : m_Stride(0)
 {
