@@ -31,10 +31,10 @@ The HELP button takes you to this widget, you can click OK button to go back to 
 The OptionMenu button takes you to a widget to set your music and sound. You can click OK button to go back to MainMenu
 
 The START button takes you to the game window, you can click EXIT button to go back to MainMenu
-
+![Alt text](Assets/MainMenu.png)
 ### In Game:
 Changing the slider will change the projection parameter, and simultaneously rotate or oscillate the cannon. When the fire button is pressed, the ball will be launched from the direction of the cannon with the current parameters. The ball will stop as it hits the ground, and the caculated data will be displayed on the Spinbox. 
-
+![Alt text](Assets/Game.png)
 ### Note:
 Since the projectile motion value is caculated using Euler's method, It's inaccurate and will deviate from the actual result. 
 
